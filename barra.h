@@ -14,7 +14,7 @@ private:
 public:
 
     barra(int usr);
-    int getPosX(){return posicao->getX();};
+    int getPosY(){return posicao->getY();};
     void desenhaBarra();
     void mover(int dist);
 };
