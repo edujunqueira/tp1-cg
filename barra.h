@@ -1,6 +1,7 @@
 #ifndef _BARRA_CLASS
 #define _BARRA_CLASS
 
+#include "functions.h"
 #include "ponto.h"
 
 class barra{
@@ -10,6 +11,8 @@ private:
     ponto *posicao;
     ponto *size;
     int user;
+    // textura da barra
+    GLuint idTexturaBarra;
 
 public:
 

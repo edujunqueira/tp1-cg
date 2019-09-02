@@ -1,10 +1,12 @@
 #include "barra.h"
 #include "bola.h"
+#include "placar.h"
 
 #define posmaxx 200
 #define posmaxy 100
 #define raioBola 5
 
+int gol;
 // cria o vetor de caracteres
 int keys[4]; // 0 = up, 1 = down, 2 = w, 3 = s
 
@@ -15,11 +17,17 @@ bola* ball = nullptr;
 barra* user1 = nullptr;
 barra* user2 = nullptr;
 
+// cria o placar
+placar* cenario = nullptr;
+
 void desenhaCena()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
     // desenha a bola
+
+    cenario->atualiza();
+
     ball->desenhaBola();
     user1->desenhaBarra();
     user2->desenhaBarra();
@@ -30,7 +38,10 @@ void desenhaCena()
 void atualizaCena(int periodo)
 {
     // faz a bola se movimentar
-    ball->movimenta(user1->getPosY(), user2->getPosY());
+    gol = ball->movimenta(user1->getPosY(), user2->getPosY());
+
+    if(gol != 0)
+        cenario->pontua(gol);
 
     // chama o postredisplay
     if(keys[0] == 1){
@@ -56,6 +67,8 @@ void setup()
     user2 = new barra(2);
     // define ball
     ball = new bola(5);
+    // define cenario
+    cenario = new placar();
     // define qual é a cor do fundo
     glClearColor(1.0, 1.0, 1.0, 0.0);
 
@@ -70,7 +83,7 @@ void redimensionada(int width, int height)
 
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
-   glOrtho(0, posmaxx, posmaxy, 0, -1, 1);
+   glOrtho(0, posmaxx, posmaxy, -50, -1, 1);
 
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
@@ -148,12 +161,12 @@ int main(int argc, char** argv)
    glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
 
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-   glutInitWindowSize(posmaxx * 4, posmaxy * 4);
+   glutInitWindowSize(posmaxx * 4, posmaxy * 4 + 200);
    glutInitWindowPosition(500, 25);
 
-   glutCreateWindow("Hello World - callbacks");
+   glutCreateWindow("Ping-Pongho");
 
-   glutSetKeyRepeat(0);
+   glutSetKeyRepeat(0); // seta que segurar uma tecla não a faz repetir
    // Registra callbacks para eventos
    glutDisplayFunc(desenhaCena);
    glutReshapeFunc(redimensionada);

@@ -1,9 +1,7 @@
 #ifndef _BOLA_CLASS
 #define _BOLA_CLASS
 
-#include <GL/glew.h>
-#include <GL/freeglut.h>
-
+#include "functions.h"
 #include "ponto.h"
 
 class bola{
@@ -26,8 +24,8 @@ public:
     ~bola();
     // funcionalidades da bola
     void desenhaBola();
-    void checaColisao(int posx1, int posx2);
-    void movimenta(int posx1, int posx2);
+    int checaColisao(int posx1, int posx2);
+    int movimenta(int posx1, int posx2);
     void reinicia();
 
 };

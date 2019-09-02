@@ -1,13 +1,12 @@
-#include <GL/glew.h>
-#include <GL/freeglut.h>
-
 #include "barra.h"
+#include "functions.h"
 
 #define posmaxx 200
 #define posmaxy 100
 
 barra::barra(int usr)
 {
+    idTexturaBarra = carregaTextura("img/barra.png");
     // seta o tamanho da barra
     size = new ponto(5, 20);
     // seta o usuario
@@ -20,17 +19,25 @@ barra::barra(int usr)
 
 void barra::desenhaBarra(){
 
-    glColor3f(1, 0.0, 0.0);
+    glColor4f(1.0, 1.0, 1.0, 1.0);
+    glPolygonMode(GL_BACK, GL_FILL);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, idTexturaBarra);
     glBegin(GL_TRIANGLE_FAN);
         //desenha uma barra
+        glTexCoord2f(0, 0);
         glVertex3f(posicao->getX() - size->getX(), posicao->getY() - size->getY(),  0);
 
+        glTexCoord2f(1, 0);
         glVertex3f(posicao->getX() + size->getX(), posicao->getY() - size->getY(),  0);
 
+        glTexCoord2f(1, 1);
         glVertex3f(posicao->getX() + size->getX(), posicao->getY() + size->getY(),  0);
 
+        glTexCoord2f(0, 1);
         glVertex3f(posicao->getX() - size->getX(), posicao->getY() + size->getY(),  0);
     glEnd();
+    glDisable(GL_TEXTURE_2D);
 }
 
 void barra::mover(int distancia){
