@@ -73,23 +73,25 @@ void bola::desenhaBola(){
 }
 
 void bola::checaColisao(int posx1, int posx2){
-    if (posicao->getX() >= (posmaxx - raio) || posicao->getX() <= raio){                // se rolar um gol (ou seja, bola colidindo com o teto ou o chão)
+
+    if (posicao->getY() >= (posmaxy - raio) || (posicao->getY() <= raio)){          // se a bola estiver colidindo com teto ou chao
+        direcao->setY(direcao->getY() * -1.0); // muda a direção
+    } else if (
+       (((posicao->getX() + raio) >= 180) &&            // a bolinha tem que estar no X da barra 2 ( 180 = posbarra - 5 da barra)
+        ((posicao->getY() - raio) <= (posx2 + 20)) &&   // e a direita da bolinha tem que ser menor que a esquerda da barra
+        ((posicao->getY() + raio) >= (posx2 - 20)))     // e a esquerda da bolinha tem que ser maior que a direita da barra
+    || // barra 1 ou barra 2
+       (((posicao->getX() + raio) <= 30) &&            // a bolinha tem que estar no X da barra 1 ( 30 = posbarra + 5 da barra)
+        ((posicao->getY() - raio) <= (posx1 + 20)) &&   // e a direita da bolinha tem que ser menor que a esquerda da barra
+        ((posicao->getY() + raio) >= (posx1 - 20)))     // e a esquerda da bolinha tem que ser maior que a direita da barra
+    ){ // todo a bola passa do Y
+        direcao->setX(direcao->getX() * -1.1); // muda a direção e aumenta a velocidade
+    } else if ( (posicao->getX() + raio) <= 30 || (posicao->getX() + raio) >= 180 ){    // se rolar um gol (ou seja, bola colidindo com um dos lados)
         printf("Gol!");
         // reinicia a posição da bola
         this->reinicia();
-    } else if (posicao->getY() >= (posmaxy - raio) || (posicao->getY() <= raio)){        // se a bola estiver colidindo com algum dos lados
-        direcao->setY(direcao->getY() * -1.0); // muda a direção
-    } else if (
-       (((posicao->getX() + raio) >= 180) &&            // a bolinha tem que estar no Y da barra 2
-        ((posicao->getY() + raio) <= (posx2 + 20)) &&   // e a direita da bolinha tem que ser menor que a esquerda da barra
-        ((posicao->getY() - raio) >= (posx2 - 20)))     // e a esquerda da bolinha tem que ser maior que a direita da barra
-    || // barra 1 ou barra 2
-       (((posicao->getX() + raio) <= 30) &&            // a bolinha tem que estar no Y da barra 1
-        ((posicao->getY() + raio) <= (posx1 + 20)) &&   // e a direita da bolinha tem que ser menor que a esquerda da barra
-        ((posicao->getY() - raio) >= (posx1 - 20)))     // e a esquerda da bolinha tem que ser maior que a direita da barra
-    ){ // todo a bola passa do Y
-        direcao->setX(direcao->getX() * -1.1); // muda a direção e aumenta a velocidade
     }
+
 }
 
 void bola::movimenta(int posx1, int posx2){
