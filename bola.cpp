@@ -1,10 +1,25 @@
 #include <SOIL/SOIL.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "bola.h"
 
-#define posmaxx 100
-#define posmaxy 200
+#define posmaxx 200
+#define posmaxy 100
+
+int randomPoint(int x, int y){
+    int ret;
+    srand(time(NULL));
+    if(x == 1 || y == 1){
+        ret = rand() % 2;
+        if(ret == 0)
+            ret = -1;
+    }else
+        ret = (rand() % (y-x)) + x;
+
+    return ret;
+}
 
 GLuint carregaTextura(const char* arquivo)
 {
@@ -24,8 +39,8 @@ GLuint carregaTextura(const char* arquivo)
 
 bola::bola(int r)
 {
-    posicao = new ponto(20, 33);
-    direcao = new ponto( 1,  1);
+    posicao = new ponto(randomPoint(80, 120), randomPoint(20, 80)); // gera uma posicao aleatoria para a bola iniciar
+    direcao = new ponto(randomPoint( 1,  -1), randomPoint( 1, -1)); // gera uma direcao aleatoria para a bola iniciar
     idTexturaBola = carregaTextura("ball.png");
     raio = r;
 }
@@ -33,8 +48,8 @@ bola::bola(int r)
 bola::~bola(){}
 
 void bola::reinicia(){
-    posicao->setPonto(20, 33);
-    direcao->setPonto( 1,  1);
+    posicao->setPonto(randomPoint(80, 120), randomPoint(20, 80)); // gera uma posicao aleatoria para a bola reiniciar
+    direcao->setPonto(randomPoint( 1,  -1), randomPoint( 1, -1)); // gera uma direcao aleatoria para a bola reiniciar
 }
 
 void bola::desenhaBola(){
@@ -58,22 +73,22 @@ void bola::desenhaBola(){
 }
 
 void bola::checaColisao(int posx1, int posx2){
-    if (posicao->getY() >= (posmaxy - raio) || posicao->getY() <= raio){                // se rolar um gol (ou seja, bola colidindo com o teto ou o chão)
+    if (posicao->getX() >= (posmaxx - raio) || posicao->getX() <= raio){                // se rolar um gol (ou seja, bola colidindo com o teto ou o chão)
         printf("Gol!");
         // reinicia a posição da bola
         this->reinicia();
-    } else if (posicao->getX() >= (posmaxx - raio) || (posicao->getX() <= raio)){        // se a bola estiver colidindo com algum dos lados
-        direcao->setX(direcao->getX() * -1.0); // muda a direção
+    } else if (posicao->getY() >= (posmaxy - raio) || (posicao->getY() <= raio)){        // se a bola estiver colidindo com algum dos lados
+        direcao->setY(direcao->getY() * -1.0); // muda a direção
     } else if (
-       (((posicao->getY() + raio) >= 180) &&            // a bolinha tem que estar no Y da barra 2
-        ((posicao->getX() + raio) <= (posx2 + 20)) &&   // e a direita da bolinha tem que ser menor que a esquerda da barra
-        ((posicao->getX() - raio) >= (posx2 - 20)))     // e a esquerda da bolinha tem que ser maior que a direita da barra
+       (((posicao->getX() + raio) >= 180) &&            // a bolinha tem que estar no Y da barra 2
+        ((posicao->getY() + raio) <= (posx2 + 20)) &&   // e a direita da bolinha tem que ser menor que a esquerda da barra
+        ((posicao->getY() - raio) >= (posx2 - 20)))     // e a esquerda da bolinha tem que ser maior que a direita da barra
     || // barra 1 ou barra 2
-       (((posicao->getY() + raio) <= 30) &&            // a bolinha tem que estar no Y da barra 1
-        ((posicao->getX() + raio) <= (posx1 + 20)) &&   // e a direita da bolinha tem que ser menor que a esquerda da barra
-        ((posicao->getX() - raio) >= (posx1 - 20)))     // e a esquerda da bolinha tem que ser maior que a direita da barra
+       (((posicao->getX() + raio) <= 30) &&            // a bolinha tem que estar no Y da barra 1
+        ((posicao->getY() + raio) <= (posx1 + 20)) &&   // e a direita da bolinha tem que ser menor que a esquerda da barra
+        ((posicao->getY() - raio) >= (posx1 - 20)))     // e a esquerda da bolinha tem que ser maior que a direita da barra
     ){ // todo a bola passa do Y
-        direcao->setY(direcao->getY() * -1.1); // muda a direção e aumenta a velocidade
+        direcao->setX(direcao->getX() * -1.1); // muda a direção e aumenta a velocidade
     }
 }
 
