@@ -1,12 +1,17 @@
 #include "barra.h"
 #include "bola.h"
 
-#define posmaxx 100
-#define posmaxy 200
+#define posmaxx 200
+#define posmaxy 100
 #define raioBola 5
+
+// cria o vetor de caracteres
+int keys[4]; // 0 = up, 1 = down, 2 = w, 3 = s
 
 // cria a variavel global ball
 bola* ball = nullptr;
+
+// cria as variaveis globais dos usuarios
 barra* user1 = nullptr;
 barra* user2 = nullptr;
 
@@ -25,9 +30,21 @@ void desenhaCena()
 void atualizaCena(int periodo)
 {
     // faz a bola se movimentar
-    ball->movimenta(user1->getPosX(), user2->getPosX());
+    ball->movimenta(user1->getPosY(), user2->getPosY());
 
     // chama o postredisplay
+    if(keys[0] == 1){
+        user1->mover(-2);
+    }
+    if(keys[1] == 1){
+        user1->mover(2);
+    }
+    if(keys[2] == 1){
+        user2->mover(-2);
+    }
+    if(keys[3] == 1){
+        user2->mover(2);
+    }
     glutPostRedisplay();
     glutTimerFunc(25, atualizaCena, 0);
 }
@@ -63,13 +80,11 @@ void teclaPressionada(unsigned char key, int x, int y)
 {
     switch(key)
     {
-    case 'a':
-        user2->mover(-5);
-        glutPostRedisplay();
+    case 'w':
+        keys[2] = 1;
         break;
-    case 'd':
-        user2->mover(5);
-        glutPostRedisplay();
+    case 's':
+        keys[3] = 1;
         break;
     case 27:      // Tecla "ESC"
         exit(0);
@@ -83,11 +98,41 @@ void flechaPressionada(int key, int x, int y)
 {
     switch(key)
     {
-    case GLUT_KEY_LEFT:
-        user1->mover(-5);
+    case GLUT_KEY_UP:
+        keys[0] = 1;
         break;
-    case GLUT_KEY_RIGHT:
-        user1->mover(5);
+    case GLUT_KEY_DOWN:
+        keys[1] = 1;
+        break;
+    default:
+        break;
+    }
+}
+
+void teclaSolta(unsigned char key, int x, int y)
+{
+    switch(key)
+    {
+    case 'w':
+        keys[2] = 0;
+        break;
+    case 's':
+        keys[3] = 0;
+        break;
+    default:
+        break;
+    }
+}
+
+void flechaSolta(int key, int x, int y)
+{
+    switch(key)
+    {
+    case GLUT_KEY_UP:
+        keys[0] = 0;
+        break;
+    case GLUT_KEY_DOWN:
+        keys[1] = 0;
         break;
     default:
         break;
@@ -103,16 +148,19 @@ int main(int argc, char** argv)
    glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
 
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-   glutInitWindowSize(400, 800);
+   glutInitWindowSize(posmaxx * 4, posmaxy * 4);
    glutInitWindowPosition(500, 25);
 
    glutCreateWindow("Hello World - callbacks");
 
+   glutSetKeyRepeat(0);
    // Registra callbacks para eventos
    glutDisplayFunc(desenhaCena);
    glutReshapeFunc(redimensionada);
    glutKeyboardFunc(teclaPressionada);
    glutSpecialFunc(flechaPressionada);
+   glutKeyboardUpFunc(teclaSolta);
+   glutSpecialUpFunc(flechaSolta);
    glutTimerFunc(0, atualizaCena, 33);
 
    setup();
