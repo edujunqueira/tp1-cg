@@ -42,7 +42,7 @@ void bola::desenhaBola(){
 }
 
 int bola::checaColisao(int posx1, int posx2){
-
+    int ret = 0;
     if (posicao->getY() >= (posmaxy - raio) || (posicao->getY() <= raio)){          // se a bola estiver colidindo com teto ou chao
         direcao->setY(direcao->getY() * -1.0); // muda a direção
     } else if (
@@ -56,13 +56,13 @@ int bola::checaColisao(int posx1, int posx2){
     ){ // todo a bola passa do Y
         direcao->setX(direcao->getX() * -1.1); // muda a direção e aumenta a velocidade
     } else if ( (posicao->getX() + raio) <= 30 || (posicao->getX() + raio) >= 180 ){    // se rolar um gol (ou seja, bola colidindo com um dos lados)
-        this->reinicia();
         if( (posicao->getX() + raio) <= 30)
-            return 2;
+            ret = 2;
         else
-            return 1;
+            ret = 1;
+        this->reinicia();
     }
-    return 0;
+    return ret;
 }
 
 int bola::movimenta(int posx1, int posx2){
