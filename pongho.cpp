@@ -2,13 +2,9 @@
 #include "bola.h"
 #include "placar.h"
 
-#define posmaxx 200
-#define posmaxy 100
-#define raioBola 5
-
 int gol;
 // cria o vetor de caracteres
-int keys[4]; // 0 = up, 1 = down, 2 = w, 3 = s
+bool keys[4]; // 0 = w, 1 = s, 2 = up, 3 = down
 
 // cria a variavel global ball
 bola* ball = nullptr;
@@ -40,21 +36,23 @@ void atualizaCena(int periodo)
     // faz a bola se movimentar
     gol = ball->movimenta(user1->getPosY(), user2->getPosY());
 
-    if(gol != 0)
+    if(gol != PLAYER_NONE){
         cenario->pontua(gol);
+        ball->reinicia();
+    }
 
     // chama o postredisplay
-    if(keys[0] == 1){
-        user1->mover(-2);
+    if(keys[LEFT_UP]){
+        user1->mover(-velocidadeBarra );
     }
-    if(keys[1] == 1){
-        user1->mover(2);
+    if(keys[LEFT_DOWN]){
+        user1->mover( velocidadeBarra );
     }
-    if(keys[2] == 1){
-        user2->mover(-2);
+    if(keys[RIGHT_UP]){
+        user2->mover(-velocidadeBarra );
     }
-    if(keys[3] == 1){
-        user2->mover(2);
+    if(keys[RIGHT_DOWN]){
+        user2->mover( velocidadeBarra );
     }
     glutPostRedisplay();
     glutTimerFunc(25, atualizaCena, 0);
@@ -63,10 +61,10 @@ void atualizaCena(int periodo)
 void setup()
 {
     // define users
-    user1 = new barra(1);
-    user2 = new barra(2);
+    user1 = new barra(PLAYER_ONE);
+    user2 = new barra(PLAYER_TWO);
     // define ball
-    ball = new bola(5);
+    ball = new bola(raioBola);
     // define cenario
     cenario = new placar();
     // define qual é a cor do fundo
@@ -83,7 +81,7 @@ void redimensionada(int width, int height)
 
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
-   glOrtho(0, posmaxx, posmaxy, -50, -1, 1);
+   glOrtho(0, sizeTelaJogoX, sizeTelaJogoY, -scoreboardHeight, -1, 1);
 
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
@@ -94,10 +92,10 @@ void teclaPressionada(unsigned char key, int x, int y)
     switch(key)
     {
     case 'w':
-        keys[2] = 1;
+        keys[LEFT_UP] = true;
         break;
     case 's':
-        keys[3] = 1;
+        keys[LEFT_DOWN] = true;
         break;
     case 27:      // Tecla "ESC"
         exit(0);
@@ -112,10 +110,10 @@ void flechaPressionada(int key, int x, int y)
     switch(key)
     {
     case GLUT_KEY_UP:
-        keys[0] = 1;
+        keys[RIGHT_UP] = true;
         break;
     case GLUT_KEY_DOWN:
-        keys[1] = 1;
+        keys[RIGHT_DOWN] = true;
         break;
     default:
         break;
@@ -127,10 +125,10 @@ void teclaSolta(unsigned char key, int x, int y)
     switch(key)
     {
     case 'w':
-        keys[2] = 0;
+        keys[LEFT_UP] = false;
         break;
     case 's':
-        keys[3] = 0;
+        keys[LEFT_DOWN] = false;
         break;
     default:
         break;
@@ -142,10 +140,10 @@ void flechaSolta(int key, int x, int y)
     switch(key)
     {
     case GLUT_KEY_UP:
-        keys[0] = 0;
+        keys[RIGHT_UP] = false;
         break;
     case GLUT_KEY_DOWN:
-        keys[1] = 0;
+        keys[RIGHT_DOWN] = false;
         break;
     default:
         break;
@@ -161,7 +159,7 @@ int main(int argc, char** argv)
    glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
 
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-   glutInitWindowSize(posmaxx * 4, posmaxy * 4 + 200);
+   glutInitWindowSize(sizeTelaJogoX * 4, sizeTelaJogoY * 4 + scoreboardHeight * 4);
    glutInitWindowPosition(500, 25);
 
    glutCreateWindow("Ping-Pongho");
@@ -174,7 +172,7 @@ int main(int argc, char** argv)
    glutSpecialFunc(flechaPressionada);
    glutKeyboardUpFunc(teclaSolta);
    glutSpecialUpFunc(flechaSolta);
-   glutTimerFunc(0, atualizaCena, 33);
+   glutTimerFunc(0, atualizaCena, 25);
 
    setup();
 
