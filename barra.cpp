@@ -1,20 +1,17 @@
 #include "barra.h"
 #include "functions.h"
 
-#define posmaxx 200
-#define posmaxy 100
-
 barra::barra(int usr)
 {
     idTexturaBarra = carregaTextura("img/barra.png");
     // seta o tamanho da barra
-    size = new ponto(5, 20);
+    size = new ponto(sizeBarraX, sizeBarraY);
     // seta o usuario
     user = usr;
-    if(usr == 1) // se for jogador 1, em cima
-        posicao = new ponto(15, 50);
-    else          // se for jogador 2, em baixo
-        posicao = new ponto(185, 50);
+    if(usr == PLAYER_ONE)       // se for jogador 1, esquerda
+        posicao = new ponto(posPlayer1X, posPlayerInicialY);
+    else if(usr == PLAYER_TWO)  // se for jogador 2, direita
+        posicao = new ponto(posPlayer2X, posPlayerInicialY);
 }
 
 void barra::desenhaBarra(){
@@ -41,6 +38,6 @@ void barra::desenhaBarra(){
 }
 
 void barra::mover(int distancia){
-    if( (posicao->getY() + size->getY() + distancia) < posmaxy && (posicao->getY() + distancia) > size->getY() )
+    if( (posicao->getY() + size->getY() + distancia) < sizeTelaJogoY && (posicao->getY() + distancia) > size->getY() )
         posicao->setY(posicao->getY() + distancia);
 }

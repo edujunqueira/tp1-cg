@@ -9,10 +9,8 @@ GLuint carregaTextura(const char* arquivo)
                            SOIL_FLAG_INVERT_Y
                        );
 
-    if (idTextura == 0) {
+    if (idTextura == 0)
         printf("Erro do SOIL: '%s'\n", SOIL_last_result());
-    }else
-        printf("Imagem '%s' carregada com sucesso.\n", arquivo);
 
     return idTextura;
 }

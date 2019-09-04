@@ -24,8 +24,8 @@ public:
     ~bola();
     // funcionalidades da bola
     void desenhaBola();
-    int checaColisao(int posx1, int posx2);
-    int movimenta(int posx1, int posx2);
+    int checaColisao(int posYP1, int posYP2);
+    int movimenta(int posYP1, int posYP2);
     void reinicia();
 
 };
