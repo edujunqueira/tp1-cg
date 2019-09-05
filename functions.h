@@ -12,7 +12,7 @@
 GLuint carregaTextura(const char* arquivo);
 void inicializaTextura();
 int randomPoint(int x, int y);
-void escreve(void* fonte, const char* texto, float x, float y);
+//void escreve(void* fonte, const char* texto, float x, float y);
 void desenhaLetra(int letra, int x, int y, int sizex, int sizey);
 void escreveFrase(std::string str, int x, int y, int sizex, int sizey);
 

@@ -6,5 +6,5 @@ g++ pongho.cpp barra.cpp bola.cpp placar.cpp functions.cpp -o pongho.exe -LE:\Li
 pongho.exe
 
 linux:
-g++ pongho.cpp barra.cpp bola.cpp placar.cpp functions.cpp -o pongho -lglut -lGLU -lGL -lGLEW -lSOIL
+g++ pongho.cpp menu.cpp barra.cpp bola.cpp functions.cpp placar.cpp -lSOIL -lglut -lGLEW -lGL -lGLU -std=c++11
 ./pongho

@@ -34,13 +34,13 @@ int randomPoint(int x, int y){
     return ret;
 }
 
-void escreve(void* fonte, const char* texto, float x, float y) {
+/*void escreve(void* fonte, const char* texto, float x, float y) {
   glRasterPos2f(x, y);
 
   for (int i = 0; i < strlen(texto); i++) {
      glutBitmapCharacter(fonte, texto[i]);
   }
-}
+}*/
 
 void desenhaLetra(int letra, int x, int y, int sizex, int sizey){
     float calcx, calcy, calcx2, calcy2;

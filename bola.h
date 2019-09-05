@@ -16,6 +16,8 @@ private:
     GLuint idTexturaBola;
     // raio da bola
     int raio;
+    //bloqueio
+    bool bloqueio; // 1 = bloquedo
 
 public:
 
