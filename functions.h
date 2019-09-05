@@ -10,8 +10,19 @@
 #include <time.h>
 
 GLuint carregaTextura(const char* arquivo);
+void inicializaTextura();
 int randomPoint(int x, int y);
 void escreve(void* fonte, const char* texto, float x, float y);
+void desenhaLetra(int letra, int x, int y, int sizex, int sizey);
+void escreveFrase(std::string str, int x, int y, int sizex, int sizey);
+
+enum GAME_STATE {
+        STATE_MENU,
+        STATE_PLAY,
+        STATE_PAUSE,
+        STATE_GOAL,
+        STATE_RESTART
+};
 
 enum PLAYERS {
     PLAYER_NONE,
@@ -64,8 +75,8 @@ enum FONT {
     FONT_Y,
     FONT_Z,
     FONT_TRACO,
-    FONT_ASPADUPLA,
-    FONT_ASPA,
+    FONT_ASPASDUPLA,
+    FONT_ASPAS,
     FONT_UNDERLINE,
     FONT_PONTO,
     FONT_INTERROGACAO,
@@ -73,10 +84,11 @@ enum FONT {
     FONT_CHAPEU,
     FONT_NONE
 };
+
 // gerais
 #define sizeTelaJogoX 200
 #define sizeTelaJogoY 100
-#define scoreboardHeight 50
+#define scoreboardHeight 20
 
 // bola
 #define raioBola 5

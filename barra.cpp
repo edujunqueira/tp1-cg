@@ -37,7 +37,12 @@ void barra::desenhaBarra(){
     glDisable(GL_TEXTURE_2D);
 }
 
-void barra::mover(int distancia){
-    if( (posicao->getY() + size->getY() + distancia) < sizeTelaJogoY && (posicao->getY() + distancia) > size->getY() )
-        posicao->setY(posicao->getY() + distancia);
+void barra::mover(bool up, bool down){
+    if(down)
+        if( (posicao->getY() + size->getY() + velocidadeBarra) < sizeTelaJogoY && (posicao->getY() + velocidadeBarra) > size->getY() )
+            posicao->setY(posicao->getY() + velocidadeBarra);
+
+    if(up)
+        if( (posicao->getY() + size->getY() - velocidadeBarra) < sizeTelaJogoY && (posicao->getY() - velocidadeBarra) > size->getY() )
+            posicao->setY(posicao->getY() - velocidadeBarra);
 }

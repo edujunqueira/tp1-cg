@@ -19,7 +19,7 @@ public:
     barra(int usr);
     int getPosY(){return posicao->getY();};
     void desenhaBarra();
-    void mover(int dist);
+    void mover(bool up, bool down);
 };
 
 #endif /* _BARRA_CLASS */

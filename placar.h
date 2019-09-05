@@ -11,7 +11,6 @@ private:
     // coordenadas do ponto
     int p1, p2;
     GLuint idTexturaBg;
-    GLuint idTexturaFonte;
 
 public:
 
@@ -21,7 +20,6 @@ public:
     // getters e setters
     void pontua(int player);
     void atualiza();
-    void desenhaLetra(int letra, int x, int y, int sizex, int sizey);
 };
 
 #endif /*_PLACAR_CLASS*/
