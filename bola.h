@@ -17,7 +17,9 @@ private:
     // raio da bola
     int raio;
     //bloqueio
-    bool bloqueio; // 1 = bloquedo
+    bool bloqueio; // true = bloquedo
+    // gol
+    bool gol;
 
 public:
 

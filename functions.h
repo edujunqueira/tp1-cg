@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string>
 #include <time.h>
+#include <cmath>
 
 GLuint carregaTextura(const char* arquivo);
 void inicializaTextura();
@@ -92,6 +93,7 @@ enum FONT {
 
 // bola
 #define raioBola 5
+#define velocidadeMaxima 3
 #define aumentoVelocidade 1.1
 #define pontoAleatorioX1 80
 #define pontoAleatorioX2 20
