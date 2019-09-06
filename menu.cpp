@@ -3,12 +3,47 @@
 menu::menu()
 {
     idTexturaBgMenu = carregaTextura("img/menu-bg.png");
+    int posx = 100, posy = 7, distancia = 21;
+    botaoPlay = new botao("play", posx, posy, 50, 20);
+    posy += distancia;
+    botaoConfig = new botao("config", posx, posy, 50, 20);
+    posy += distancia;
+    botaoRecords = new botao("records", posx, posy, 50, 20);
+    posy += distancia;
+    botaoExit = new botao("exit", posx, posy, 50, 20);
 }
 
 void menu::inicia()
 {
     this->desenhaMenuBg();
-    escreveFrase("press 'g' to play", 100, 40, 3, 3);
+    botaoPlay->desenhaBotao();
+    botaoConfig->desenhaBotao();
+    botaoRecords->desenhaBotao();
+    botaoExit->desenhaBotao();
+}
+
+int menu::mouseApertado(int button, int state, int x, int y)
+{
+    int ret = BUTTON_NONE;
+    if(button == GLUT_LEFT_BUTTON){
+        if (botaoPlay->checaClique(state, x, y))
+            ret = BUTTON_PLAY;
+        if (botaoConfig->checaClique(state, x, y))
+            ret = BUTTON_CONFIG;
+        if (botaoRecords->checaClique(state, x, y))
+            ret = BUTTON_RECORDS;
+        if (botaoExit->checaClique(state, x, y))
+            ret = BUTTON_EXIT;
+    }
+    return ret;
+}
+
+void menu::mousePassivo(int x, int y)
+{
+    botaoPlay->checaHover(x, y);
+    botaoConfig->checaHover(x, y);
+    botaoRecords->checaHover(x, y);
+    botaoExit->checaHover(x, y);
 }
 
 void menu::desenhaMenuBg()
@@ -35,9 +70,10 @@ void menu::desenhaMenuBg()
 
     glColor4f(0.0, 0.0, 0.0, 0.5);
     glBegin(GL_TRIANGLE_FAN);
-        glVertex3f(50, 0, 0);
-        glVertex3f(150, 0, 0);
-        glVertex3f(150, 80,  0);
-        glVertex3f(50, 80, 0);
+        glVertex3f(50, -10, 0);
+        glVertex3f(150, -10, 0);
+        glVertex3f(150, 90,  0);
+        glVertex3f(50, 90, 0);
     glEnd();
+
 }

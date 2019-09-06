@@ -77,7 +77,6 @@ int bola::checaColisao(int posYP1, int posYP2){
                 direcao->setY(direcao->getY() * aumentoVelocidade); // aumenta a velocidade
             }
     		bloqueio = true;
-            printf("%f\n", direcao->getX());
     	}
     } else if ( (posicao->getX() - raio) <= (posPlayer1X + sizeBarraX) || (posicao->getX() + raio) >= (posPlayer2X - sizeBarraX) ){
         // se rolar um gol (ou seja, bola passar de uma das barras)

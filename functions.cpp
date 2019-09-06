@@ -75,7 +75,11 @@ void desenhaLetra(int letra, int x, int y, int sizex, int sizey){
 
 void escreveFrase(std::string str, int x, int y, int sizex, int sizey)
 {
+    if (str.length() % 2 == 0)
+        x += 3;
+
     x -= (str.length() / 2) * sizex * 2;
+
     for(char& letra : str) {
         if(letra >= 48 && letra < 57){
             letra -= 48;
@@ -90,6 +94,7 @@ void escreveFrase(std::string str, int x, int y, int sizex, int sizey)
         } else if (letra == 39){
             letra = FONT_ASPAS;
         }
+
         desenhaLetra(letra, x, y, sizex, sizey);
         x += 2 * sizex;
     }

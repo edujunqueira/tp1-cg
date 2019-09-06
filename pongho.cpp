@@ -3,7 +3,7 @@
 #include "menu.h"
 #include "placar.h"
 
-
+int gWidth, gHeight;
 int gameState = STATE_MENU;
 int gol;
 // cria o vetor de caracteres
@@ -88,11 +88,44 @@ void setup()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
+void passaMouse(int x, int y)
+{
+    if(gameState == STATE_MENU){
+        float myX, myY;
+        myX = (x / (float) gWidth) * sizeTelaJogoX;
+        myY = (y / (float) gHeight) * (sizeTelaJogoY + scoreboardHeight) - scoreboardHeight;
+        mainMenu->mousePassivo( myX, myY);
+    }
+}
+
+void apertaMouse(int button, int state, int x, int y)
+{
+    if(gameState == STATE_MENU){
+        float myX, myY;
+        myX = (x / (float) gWidth) * sizeTelaJogoX;
+        myY = (y / (float) gHeight) * (sizeTelaJogoY + scoreboardHeight) - scoreboardHeight;
+
+        switch(mainMenu->mouseApertado(button, state, myX, myY)){
+            case(BUTTON_NONE):
+                break;
+            case(BUTTON_PLAY):
+                gameState = STATE_PLAY;
+                break;
+            case(BUTTON_EXIT):
+                exit(0);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 void redimensionada(int width, int height)
 {
    // left, bottom, right, top
    glViewport(0, 0, width, height);
-
+   gWidth = width;
+   gHeight = height;
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
    glOrtho(0, sizeTelaJogoX, sizeTelaJogoY, -scoreboardHeight, -1, 1);
@@ -105,9 +138,6 @@ void teclaPressionada(unsigned char key, int x, int y)
 {
     switch(key)
     {
-    case 'g':
-        gameState = STATE_PLAY;
-        break;
     case 'm':
         gameState = STATE_MENU;
         break;
@@ -193,6 +223,8 @@ int main(int argc, char** argv)
    glutKeyboardUpFunc(teclaSolta);
    glutSpecialUpFunc(flechaSolta);
    glutTimerFunc(0, atualizaCena, 33);
+   glutMouseFunc(apertaMouse);
+   glutPassiveMotionFunc(passaMouse);
 
    setup();
 

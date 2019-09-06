@@ -18,11 +18,11 @@ void desenhaLetra(int letra, int x, int y, int sizex, int sizey);
 void escreveFrase(std::string str, int x, int y, int sizex, int sizey);
 
 enum GAME_STATE {
-        STATE_MENU,
-        STATE_PLAY,
-        STATE_PAUSE,
-        STATE_GOAL,
-        STATE_RESTART
+    STATE_MENU,
+    STATE_PLAY,
+    STATE_PAUSE,
+    STATE_GOAL,
+    STATE_RESTART
 };
 
 enum PLAYERS {
@@ -36,6 +36,21 @@ enum DIR_KEYS {
     LEFT_DOWN,
     RIGHT_UP,
     RIGHT_DOWN
+};
+
+enum BUTTON_STATE {
+    BUTTON_NORMAL,
+    BUTTON_HOVERED,
+    BUTTON_CLICKED,
+    BUTTON_BLOCKED
+};
+
+enum BUTTONS {
+    BUTTON_NONE,
+    BUTTON_PLAY,
+    BUTTON_CONFIG,
+    BUTTON_RECORDS,
+    BUTTON_EXIT
 };
 
 enum FONT {
