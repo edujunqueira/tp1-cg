@@ -9,8 +9,11 @@ class placar
 private:
 
     // coordenadas do ponto
-    int p1, p2;
+    int pontos[3];
+    int sets[3];
+    bool vantagem[3];
     GLuint idTexturaBg;
+    GLuint idTexturaVantagem;
 
 public:
 
@@ -18,7 +21,9 @@ public:
     placar();
 
     // getters e setters
-    void pontua(int player);
+    void reiniciaPontos();
+    int pontua(int player); // retorna se um jogador ganhou a partida nesse ponto
+    int getPontos(int player);
     void atualiza();
 };
 

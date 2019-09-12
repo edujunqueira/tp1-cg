@@ -16,13 +16,15 @@ int randomPoint(int x, int y);
 //void escreve(void* fonte, const char* texto, float x, float y);
 void desenhaLetra(int letra, int x, int y, int sizex, int sizey);
 void escreveFrase(std::string str, int x, int y, int sizex, int sizey);
+void popRegisterWin();
 
 enum GAME_STATE {
-    STATE_MENU,
-    STATE_PLAY,
-    STATE_PAUSE,
-    STATE_GOAL,
-    STATE_RESTART
+    GS_MENU,
+    GS_PLAY,
+    GS_PAUSE,
+    GS_RECORDS,
+    GS_RECORDS_SCREEN,
+    GS_CONFIG
 };
 
 enum PLAYERS {
@@ -38,6 +40,16 @@ enum DIR_KEYS {
     RIGHT_DOWN
 };
 
+enum POINT_RESULT {
+    SCORE_NONE,
+    SCORE_PLAYER_ONE,
+    SCORE_PLAYER_TWO,
+    SET_PLAYER_ONE,
+    SET_PLAYER_TWO,
+    WIN_PLAYER_ONE,
+    WIN_PLAYER_TWO
+};
+
 enum BUTTON_STATE {
     BUTTON_NORMAL,
     BUTTON_HOVERED,
@@ -45,12 +57,16 @@ enum BUTTON_STATE {
     BUTTON_BLOCKED
 };
 
-enum BUTTONS {
-    BUTTON_NONE,
-    BUTTON_PLAY,
-    BUTTON_CONFIG,
-    BUTTON_RECORDS,
-    BUTTON_EXIT
+enum MENU_BUTTONS {
+    BUTTON_MENU_NONE,
+    BUTTON_MENU_PLAY,
+    BUTTON_MENU_CONFIG,
+    BUTTON_MENU_RECORDS,
+    BUTTON_MENU_EXIT
+};
+
+enum CONFIG_BUTTONS {
+    BUTTON_CONFIG_NONE
 };
 
 enum FONT {
@@ -106,8 +122,14 @@ enum FONT {
 #define sizeTelaJogoY 100
 #define scoreboardHeight 20
 
+// placar
+
+#define pointsToWin 2
+#define setsToWin 2
+
 // bola
 #define raioBola 5
+#define velocidadeInicial 2
 #define velocidadeMaxima 3
 #define aumentoVelocidade 1.1
 #define pontoAleatorioX1 80

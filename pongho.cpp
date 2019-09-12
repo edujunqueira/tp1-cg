@@ -2,10 +2,14 @@
 #include "bola.h"
 #include "menu.h"
 #include "placar.h"
+#include "records.h"
 
 int gWidth, gHeight;
-int gameState = STATE_MENU;
-int gol;
+int gameState = GS_MENU;
+int scorer;
+int scoreResult = SCORE_NONE;
+std::string scorerName;
+
 // cria o vetor de caracteres
 bool keys[4]; // 0 = w, 1 = s, 2 = up, 3 = down
 
@@ -22,25 +26,28 @@ barra* user2 = nullptr;
 // cria o placar
 placar* cenario = nullptr;
 
+// cria a interface de records
+records* record = nullptr;
 
 void desenhaCena()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
 
-    if(gameState == STATE_MENU){
+    if(gameState == GS_MENU){
 
-        mainMenu->inicia();
+        mainMenu->atualiza();
 
-    } else if(gameState == STATE_PLAY){ // se o jogo estiver rolando
+    } else if(gameState == GS_PLAY || gameState == GS_RECORDS){ // se o jogo estiver rolando
 
         cenario->atualiza();
-
         ball->desenhaBola();
         user1->desenhaBarra();
         user2->desenhaBarra();
 
-    } else if(gameState == STATE_PAUSE){
+    } else if(gameState == GS_PAUSE){
+
+        // pause
 
     }
 
@@ -49,16 +56,20 @@ void desenhaCena()
 
 void atualizaCena(int periodo)
 {
-    if(gameState == STATE_PLAY){
+    if(gameState == GS_PLAY){
         // faz a bola se movimentar
-        gol = ball->movimenta(user1->getPosY(), user2->getPosY());
+        scorer = ball->movimenta(user1->getPosY(), user2->getPosY());
 
-        if(gol != PLAYER_NONE){
-            cenario->pontua(gol);
+        if(scorer != PLAYER_NONE){
+            scoreResult = cenario->pontua(scorer);
             ball->reinicia();
             // gol!
         }
 
+        if(scoreResult >= WIN_PLAYER_ONE){
+            gameState = GS_RECORDS;
+            //cenario->askPlayerName();
+        }
         // faz com que as barras se movam
         user1->mover(keys[LEFT_UP], keys[LEFT_DOWN]);
         user2->mover(keys[RIGHT_UP], keys[RIGHT_DOWN]);
@@ -80,7 +91,8 @@ void setup()
     cenario = new placar();
     // define menu
     mainMenu = new menu();
-
+    //define records
+    record = new records();
     // define qual é a cor do fundo
     glClearColor(1.0, 1.0, 1.0, 0.0);
 
@@ -90,7 +102,7 @@ void setup()
 
 void passaMouse(int x, int y)
 {
-    if(gameState == STATE_MENU){
+    if(gameState == GS_MENU){
         float myX, myY;
         myX = (x / (float) gWidth) * sizeTelaJogoX;
         myY = (y / (float) gHeight) * (sizeTelaJogoY + scoreboardHeight) - scoreboardHeight;
@@ -100,18 +112,18 @@ void passaMouse(int x, int y)
 
 void apertaMouse(int button, int state, int x, int y)
 {
-    if(gameState == STATE_MENU){
+    if(gameState == GS_MENU){
         float myX, myY;
         myX = (x / (float) gWidth) * sizeTelaJogoX;
         myY = (y / (float) gHeight) * (sizeTelaJogoY + scoreboardHeight) - scoreboardHeight;
 
         switch(mainMenu->mouseApertado(button, state, myX, myY)){
-            case(BUTTON_NONE):
+            case(BUTTON_MENU_NONE):
                 break;
-            case(BUTTON_PLAY):
-                gameState = STATE_PLAY;
+            case(BUTTON_MENU_PLAY):
+                gameState = GS_PLAY;
                 break;
-            case(BUTTON_EXIT):
+            case(BUTTON_MENU_EXIT):
                 exit(0);
                 break;
             default:
@@ -136,10 +148,20 @@ void redimensionada(int width, int height)
 
 void teclaPressionada(unsigned char key, int x, int y)
 {
+    if(gameState == GS_RECORDS){
+        // se estiver na tela de setar os recordes, pede para o usuário digitar seu nome, para adcionar aos recordes
+        if(record->processName(key))
+            gameState = GS_MENU;
+        // só sai dessa tela quando o usuário apertar ESC (para cancelar) ou preencher os 5 dígitos
+    }
+
     switch(key)
     {
-    case 'm':
-        gameState = STATE_MENU;
+    case 'p':
+        if(gameState == GS_PLAY)
+            gameState = GS_PAUSE;
+        else if (gameState == GS_PAUSE)
+            gameState = GS_PLAY;
         break;
     case 'w':
         keys[LEFT_UP] = true;

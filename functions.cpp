@@ -24,10 +24,12 @@ void inicializaTextura(){
 int randomPoint(int x, int y){
     int ret;
     srand(time(NULL));
-    if(x == 1 || y == 1){
+    if(x == velocidadeInicial || y == velocidadeInicial){
         ret = rand() % 2;
         if(ret == 0)
-            ret = -1;
+            ret = -velocidadeInicial;
+        else
+            ret = velocidadeInicial;
     }else
         ret = (rand() % (y-x)) + x;
 

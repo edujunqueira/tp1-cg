@@ -5,7 +5,7 @@ bola::bola(int r)
     // gera uma posicao aleatoria para a bola iniciar
     posicao = new ponto(randomPoint(pontoAleatorioX1, pontoAleatorioY1), randomPoint(pontoAleatorioX2, pontoAleatorioY2));
     // gera uma posicao aleatoria para a bola iniciar
-    direcao = new ponto(randomPoint( 1, -1 ), randomPoint( 1, -1 ));
+    direcao = new ponto(randomPoint( velocidadeInicial, -velocidadeInicial ), randomPoint( velocidadeInicial, -velocidadeInicial ));
     idTexturaBola = carregaTextura("img/ball.png");
     raio = r;
     gol = false;
@@ -18,7 +18,7 @@ void bola::reinicia(){
     // gera uma posicao aleatoria para a bola reiniciar
     posicao->setPonto(randomPoint(pontoAleatorioX1, pontoAleatorioY1), randomPoint(pontoAleatorioX2, pontoAleatorioY2));
     // gera uma direcao aleatoria para a bola reiniciar
-    direcao->setPonto(randomPoint( 1, -1 ), randomPoint( 1, -1 ));
+    direcao->setPonto(randomPoint( velocidadeInicial, -velocidadeInicial ), randomPoint( velocidadeInicial, -velocidadeInicial ));
 }
 
 void bola::desenhaBola(){
