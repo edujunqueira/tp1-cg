@@ -25,6 +25,7 @@ public:
     void processWin();
     bool processName(unsigned char key);
     void teste();
+    void desenhaPopUp(int scorer);
 
 };
 

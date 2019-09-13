@@ -45,6 +45,10 @@ void desenhaCena()
         user1->desenhaBarra();
         user2->desenhaBarra();
 
+        if(gameState ==  GS_RECORDS){
+            record->desenhaPopUp(scorer);
+        }
+
     } else if(gameState == GS_PAUSE){
 
         // pause

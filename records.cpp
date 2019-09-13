@@ -6,6 +6,26 @@ records::records()
     recordName = "";
 }
 
+void records::desenhaPopUp(int scorer)
+{
+    // tela preta
+    glColor4f(0.0, 0.0, 0.0, 0.5);
+    glBegin(GL_TRIANGLE_FAN);
+        glVertex3f(10, 10, 0);
+        glVertex3f(190, 10, 0);
+        glVertex3f(190, 90,  0);
+        glVertex3f(10, 90, 0);
+    glEnd();
+    if(scorer == PLAYER_ONE)
+        escreveFrase("player one wins!", 100, 20, 4, 4);
+    else if(scorer == PLAYER_TWO)
+        escreveFrase("player two wins!", 100, 20, 4, 4);
+    escreveFrase("escreva seu nome para entrar nos recordes", 100, 40, 2, 2);
+    escreveFrase("aperte enter para confirmar ou esc para sair", 100, 50, 2, 2);
+    escreveFrase(recordName, 100, 70, 4, 4);
+    // nome atual escrevendo
+}
+
 void records::teste()
 {
 
@@ -62,17 +82,27 @@ void records::processWin()
 
 bool records::processName(unsigned char key) // return true = acabou, false = continua
 {
-    if(key == 27){ // tecla esc
+     // se apertar a tecla esc, acaba sem processar o recorde
+    if(key == 27){
         recordName = "";
         return true;
     }
 
-    recordName += key;
-
-    if(recordName.length() >= 5){
+    // se der enter, e tiver o minimo de 3 caracteres, processa o recorde
+    if(key == 13 && recordName.length() >= 3){
         this->processWin();
         return true;
     }
+
+    // se der backspace, e tiver pelo menos 1 caracter, apaga 1 caracter
+    if(key == 8 && recordName.length() >= 1){
+        recordName.pop_back();
+        return false;
+    }
+
+    // se estiver dentro das possibilidades de digitação, e não for maior que 8 caracteres
+    if( recordName.length() < 8 && ((key >= 'a' && key <= 'z') || (key >= '0' && key <= '9')) )
+        recordName += key;
 
     return false;
 }

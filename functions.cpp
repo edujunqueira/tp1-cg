@@ -83,7 +83,7 @@ void escreveFrase(std::string str, int x, int y, int sizex, int sizey)
     x -= (str.length() / 2) * sizex * 2;
 
     for(char& letra : str) {
-        if(letra >= 48 && letra < 57){
+        if(letra >= 48 && letra <= 57){
             letra -= 48;
         } else if (letra >= 97 && letra <= 122){
             letra -= 87;
