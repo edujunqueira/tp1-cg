@@ -18,6 +18,11 @@ void placar::reiniciaPontos(){
     vantagem[PLAYER_TWO] = false;
 }
 
+void placar::reiniciaSets(){
+    sets[PLAYER_ONE] = 0;
+    sets[PLAYER_TWO] = 0;
+}
+
 int placar::pontua(int player){ // retorna se um jogador ganhou a partida nesse ponto
     int ret = player;
     if(pontos[PLAYER_ONE] == (pointsToWin-1) && pontos[PLAYER_TWO] == (pointsToWin-1) ){ // vai a 2
@@ -39,6 +44,7 @@ int placar::pontua(int player){ // retorna se um jogador ganhou a partida nesse 
         ret = player == PLAYER_ONE ? SET_PLAYER_ONE : SET_PLAYER_TWO;
         if(sets[player] == setsToWin){
             ret = player == PLAYER_ONE ? WIN_PLAYER_ONE : WIN_PLAYER_TWO;
+            this->reiniciaSets();
             // win the match
         }
         this->reiniciaPontos();

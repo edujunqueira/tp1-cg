@@ -60,15 +60,14 @@ void atualizaCena(int periodo)
         // faz a bola se movimentar
         scorer = ball->movimenta(user1->getPosY(), user2->getPosY());
 
-        if(scorer != PLAYER_NONE){
-            scoreResult = cenario->pontua(scorer);
-            ball->reinicia();
-            // gol!
+        if(scorer != PLAYER_NONE){ // se for gol
+            scoreResult = cenario->pontua(scorer); // informa o placar quem foi o goleador
+            ball->reinicia(); // reinicia a posição da bola
         }
 
-        if(scoreResult >= WIN_PLAYER_ONE){
-            gameState = GS_RECORDS;
-            //cenario->askPlayerName();
+        if(scoreResult >= WIN_PLAYER_ONE){ // se o placar informar que há vencedor da partida
+            gameState = GS_RECORDS; // muda para a tela de recordes
+            scoreResult = SCORE_NONE; // reseta o goleador
         }
         // faz com que as barras se movam
         user1->mover(keys[LEFT_UP], keys[LEFT_DOWN]);
@@ -123,6 +122,9 @@ void apertaMouse(int button, int state, int x, int y)
             case(BUTTON_MENU_PLAY):
                 gameState = GS_PLAY;
                 break;
+            case(BUTTON_MENU_RECORDS):
+                record->teste();
+                break;
             case(BUTTON_MENU_EXIT):
                 exit(0);
                 break;
@@ -153,6 +155,7 @@ void teclaPressionada(unsigned char key, int x, int y)
         if(record->processName(key))
             gameState = GS_MENU;
         // só sai dessa tela quando o usuário apertar ESC (para cancelar) ou preencher os 5 dígitos
+        return;
     }
 
     switch(key)

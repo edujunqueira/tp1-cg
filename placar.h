@@ -21,6 +21,7 @@ public:
     placar();
 
     // getters e setters
+    void reiniciaSets();
     void reiniciaPontos();
     int pontua(int player); // retorna se um jogador ganhou a partida nesse ponto
     int getPontos(int player);
