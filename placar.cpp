@@ -7,6 +7,7 @@ placar::placar(){
     sets[PLAYER_TWO] = 0;
     vantagem[PLAYER_ONE] = false;
     vantagem[PLAYER_TWO] = false;
+    idTexturaPlacar = carregaTextura("img/placar.png");
     idTexturaBg = carregaTextura("img/bg.png");
     idTexturaVantagem = carregaTextura("img/vantagem.png");
 }
@@ -79,6 +80,27 @@ void placar::atualiza(){
     glEnd();
     glDisable(GL_TEXTURE_2D);
 
+    glColor4f(1.0, 1.0, 1.0, 1.0);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, idTexturaPlacar);
+    glBegin(GL_TRIANGLE_FAN);
+
+        glTexCoord2f(0, 0);
+        glVertex3f(  0, -20,  0);
+
+        glTexCoord2f(1, 0);
+        glVertex3f(200, -20,  0);
+
+        glTexCoord2f(1, 1);
+        glVertex3f(200,   0,  0);
+
+        glTexCoord2f(0, 1);
+        glVertex3f(  0,   0,  0);
+
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, idTexturaVantagem);
 
@@ -119,4 +141,19 @@ void placar::atualiza(){
     desenhaLetra(sets[PLAYER_TWO], 165, -10, 3, 3);
     desenhaLetra((pontos[PLAYER_TWO] / 10), 182, -5, 4, 4);
     desenhaLetra((pontos[PLAYER_TWO] % 10), 190, -5, 4, 4);
+
+    for(int i = 1; i <= 2; i++){
+        int outroPlayer = i == PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE;
+        if ( (pontos[i] == (pointsToWin-1)) && !(pontos[outroPlayer] == (pointsToWin-1)) ||
+            (pontos[i] == (pointsToWin-1) && pontos[outroPlayer] == (pointsToWin-1) && (vantagem[i]) ) )
+        {
+            if(sets[i] == (setsToWin-1)){
+                escreveFrase("match point", 100, -15, 3, 3);
+                escreveFrase("player " + std::to_string(i), 100, -10, 3, 3);
+            } else {
+                escreveFrase("set point", 100, -15, 3, 3);
+                escreveFrase("player " + std::to_string(i), 100, -10, 3, 3);
+            }
+        }
+    }
 }

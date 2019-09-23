@@ -3,49 +3,31 @@
 config::config()
 {
     idTexturaBgConfig = carregaTextura("img/menu-bg.png");
-    /*int posx = 100, posy = 7, distancia = 21;
-    botaoPlay = new botao("play", posx, posy, 50, 20);
-    posy += distancia;
-    botaoConfig = new botao("config", posx, posy, 50, 20);
-    posy += distancia;
-    botaoRecords = new botao("records", posx, posy, 50, 20);
-    posy += distancia;
-    botaoExit = new botao("exit", posx, posy, 50, 20);*/
+    botaoBack = new botao("voltar", 20, 0, 20, 20);
+    backToGame = false;
 }
 
 void config::atualiza()
 {
-    this->desenhaMenuBg();
-    /*
-    botaoPlay->desenhaBotao();
-    botaoConfig->desenhaBotao();
-    botaoRecords->desenhaBotao();
-    botaoExit->desenhaBotao();
-    */
+    this->desenhaConfig();
+    botaoBack->desenhaBotao();
 }
 
 int config::mouseApertado(int button, int state, int x, int y)
 {
-    int ret = BUTTON_CONFIG_NONE;
-    /*if(button == GLUT_LEFT_BUTTON){
-        if (botaoPlay->checaClique(state, x, y))
-            ret = BUTTON_MENU_PLAY;
-        if (botaoConfig->checaClique(state, x, y))
-            ret = BUTTON_MENU_CONFIG;
-        if (botaoRecords->checaClique(state, x, y))
-            ret = BUTTON_MENU_RECORDS;
-        if (botaoExit->checaClique(state, x, y))
-            ret = BUTTON_MENU_EXIT;
-    }*/
-    return ret;
+    if (botaoBack->checaClique(state, x, y)){
+        if(backToGame)
+            return BUTTON_CONFIG_BACK_TO_GAME;
+        else
+            return BUTTON_CONFIG_BACK;
+    }
+
+    return BUTTON_CONFIG_NONE;
 }
 
 void config::mousePassivo(int x, int y)
 {
-    /*botaoPlay->checaHover(x, y);
-    botaoConfig->checaHover(x, y);
-    botaoRecords->checaHover(x, y);
-    botaoExit->checaHover(x, y);*/
+    botaoBack->checaHover(x, y);
 }
 
 void config::desenhaConfig()
@@ -69,4 +51,13 @@ void config::desenhaConfig()
         glVertex3f(0, sizeTelaJogoY, 0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
+
+    escreveFraseInicio("velocidade inicial", 20, 20, 2, 2);
+    escreveFrase(std::to_string(velocidadeInicial), 180, 20, 2, 2);
+    escreveFraseInicio("aumento de velocidade", 20, 40, 2, 2);
+    escreveFrase(std::to_string(aumentoVelocidade), 180, 40, 2, 2);
+    escreveFraseInicio("pontos para ganhar", 20, 60, 2, 2);
+    escreveFrase(std::to_string(pointsToWin), 180, 60, 2, 2);
+    escreveFraseInicio("sets para ganhar", 20, 80, 2, 2);
+    escreveFrase(std::to_string(setsToWin), 180, 80, 2, 2);
 }

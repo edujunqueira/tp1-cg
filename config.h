@@ -8,7 +8,10 @@ class config{
 
 private:
 
+    botao *botaoBack;
     GLuint idTexturaBgConfig;
+    bool backToGame;
+
     /*
     botao *botaoPlay;
     botao *botaoConfig;
@@ -19,10 +22,11 @@ private:
 public:
 
     config();
-    void inicia();
+    void atualiza();
     void desenhaConfig();
     int mouseApertado(int button, int state, int x, int y);
     void mousePassivo(int x, int y);
+    void toGame(bool game) { backToGame = game; }
 
 };
 

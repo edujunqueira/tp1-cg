@@ -95,6 +95,37 @@ void escreveFrase(std::string str, int x, int y, int sizex, int sizey)
             letra = FONT_ASPASDUPLA;
         } else if (letra == 39){
             letra = FONT_ASPAS;
+        } else if (letra == 46){
+            letra = FONT_PONTO;
+        } else if (letra == 63){
+            letra = FONT_INTERROGACAO;
+        }
+
+        desenhaLetra(letra, x, y, sizex, sizey);
+        x += 2 * sizex;
+    }
+}
+
+void escreveFraseInicio(std::string str, int x, int y, int sizex, int sizey)
+{
+
+    for(char& letra : str) {
+        if(letra >= 48 && letra <= 57){
+            letra -= 48;
+        } else if (letra >= 97 && letra <= 122){
+            letra -= 87;
+        } else if (letra == 33){
+            letra = FONT_EXCLAMACAO;
+        } else if (letra == ' '){
+            letra = FONT_NONE;
+        } else if (letra == 34){
+            letra = FONT_ASPASDUPLA;
+        } else if (letra == 39){
+            letra = FONT_ASPAS;
+        } else if (letra == 46){
+            letra = FONT_PONTO;
+        } else if (letra == 63){
+            letra = FONT_INTERROGACAO;
         }
 
         desenhaLetra(letra, x, y, sizex, sizey);

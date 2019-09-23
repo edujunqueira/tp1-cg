@@ -16,6 +16,7 @@ int randomPoint(int x, int y);
 //void escreve(void* fonte, const char* texto, float x, float y);
 void desenhaLetra(int letra, int x, int y, int sizex, int sizey);
 void escreveFrase(std::string str, int x, int y, int sizex, int sizey);
+void escreveFraseInicio(std::string str, int x, int y, int sizex, int sizey);
 void popRegisterWin();
 
 enum GAME_STATE {
@@ -65,8 +66,27 @@ enum MENU_BUTTONS {
     BUTTON_MENU_EXIT
 };
 
+enum PAUSE_BUTTONS {
+    BUTTON_PAUSE_NONE,
+    BUTTON_PAUSE_RESUME,
+    BUTTON_PAUSE_CONFIG,
+    BUTTON_PAUSE_RESTART,
+    BUTTON_PAUSE_EXIT,
+    BUTTON_PAUSE_YES,
+    BUTTON_PAUSE_NO,
+    BUTTON_PAUSE_Y_RESTART,
+    BUTTON_PAUSE_Y_EXIT
+};
+
+enum RECORDS_BUTTONS {
+    BUTTON_RECORDS_NONE,
+    BUTTON_RECORDS_BACK
+};
+
 enum CONFIG_BUTTONS {
-    BUTTON_CONFIG_NONE
+    BUTTON_CONFIG_NONE,
+    BUTTON_CONFIG_BACK,
+    BUTTON_CONFIG_BACK_TO_GAME
 };
 
 enum FONT {

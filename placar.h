@@ -12,6 +12,7 @@ private:
     int pontos[3];
     int sets[3];
     bool vantagem[3];
+    GLuint idTexturaPlacar;
     GLuint idTexturaBg;
     GLuint idTexturaVantagem;
 

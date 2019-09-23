@@ -2,11 +2,16 @@
 
 botao::botao(std::string text, float x, float y, int sizex, int sizey)
 {
-    idTexturaBotao = carregaTextura("img/botao.png");
     texto = text;
     pos = new ponto(x, y);
     size = new ponto(sizex, sizey);
     estado = BUTTON_NORMAL;
+
+    if(text == "voltar"){
+        idTexturaBotao = carregaTextura("img/back.png");
+        texto = "";
+    } else
+        idTexturaBotao = carregaTextura("img/botao.png");
 }
 
 bool botao::checaClique(int state, int x, int y)
